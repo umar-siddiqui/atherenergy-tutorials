@@ -17,9 +17,7 @@ module.exports = {
 
   fn: async function (_inputs, exits) {
 
-    await ApiKey.create({
-      key: 'FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ'
-    });
+    await ApiKey.secureCreate('FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ');
 
     exits.success();
   }
