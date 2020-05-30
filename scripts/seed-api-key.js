@@ -8,11 +8,7 @@ module.exports = {
 
 
   fn: async function () {
-
-    await ApiKey.create({
-      key: 'FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ'
-    });
-
+    await sails.helpers.seedApiKey();
   }
 
 
