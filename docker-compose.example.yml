@@ -6,19 +6,23 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD={{ eg. postgres }}
   app:
     build:
       context: .
       dockerfile: docker/app/Dockerfile
     environment:
-      - POSTGRES_URL=postgresql://atheradmin:atheradmin@db:5432/atherenergy_tutorials
+      - POSTGRES_URL={{ eg. postgresql://atheradmin:atheradmin@db:5432/atherenergy_tutorials }}
     volumes:
       - app_logs:/var/www/app/log
     depends_on:
       - db
     ports:
-      - 1337:1337
+      - 80:1337
+    deploy:
+      mode: replicated
+      replicas: 2
+      endpoint_mode: vip
 volumes:
   postgres_data:
   app_logs:
