@@ -25,7 +25,7 @@ module.exports = {
       searchPath: ['public']
     });
 
-    const tutorialExists =  await pg.schema.hasTable('tutorial')
+    const tutorialExists =  await pg.schema.hasTable('tutorial');
 
     if(!tutorialExists) {
       await pg.schema

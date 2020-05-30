@@ -19,9 +19,9 @@ module.exports = {
 
     await ApiKey.create({
       key: 'FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ'
-    })
+    });
 
-    exits.success()
+    exits.success();
   }
 
 

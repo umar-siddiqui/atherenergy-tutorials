@@ -1,7 +1,7 @@
 var sails = require('sails');
 
 // Before running any tests...
-before(function(done) {
+before(function (done) {
 
   // Increase the Mocha timeout so that Sails has enough time to lift, even if you have a bunch of assets.
   this.timeout(5000);
@@ -15,7 +15,7 @@ before(function(done) {
     hooks: { grunt: false },
     log: { level: 'warn' },
 
-  }, function(err) {
+  }, (err) => {
     if (err) { return done(err); }
 
     // here you can load fixtures, etc.
@@ -26,21 +26,22 @@ before(function(done) {
           sails.helpers.seedApiKey(),
           sails.helpers.seedTutorials()
         ])
-        .then(() => done()).catch(err => done(err))
+        .then(() => done())
+        .catch(err => done(err));
       })
-      .catch(err => done(err))
+      .catch(err => done(err));
 
   });
 });
 
 // After all tests have finished...
-after(function(done) {
+after((done) => {
 
   // here you can clear fixtures, etc.
   // (e.g. you might want to destroy the records you created above)
 
   sails.helpers.dropAppTables()
        .then(() => sails.lower(done))
-       .catch(err => done(err))
+       .catch(err => done(err));
 
 });
