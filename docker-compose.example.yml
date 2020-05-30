@@ -13,6 +13,7 @@ services:
       dockerfile: docker/app/Dockerfile
     environment:
       - POSTGRES_URL={{ eg. postgresql://atheradmin:atheradmin@db:5432/atherenergy_tutorials }}
+      - API_KEY_SECRET= {{ eg. AET.29af79673bc5531a64a1e79cd4100b65 }}
     volumes:
       - app_logs:/var/www/app/log
     depends_on:
