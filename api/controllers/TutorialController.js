@@ -28,10 +28,16 @@ module.exports = {
    * `TutorialController.destroyAll()`
    */
   destroyAll: async function (req, res) {
-    return res.json({
-      todo: 'destroyAll() is not implemented yet!'
-    });
+    try {
+      await Tutorial.archive({});
+
+      return res.json({
+        message: 'Soft-deleted all tutorials'
+      });
+
+    } catch(err) {
+      res.serverError(err);
+    }
   }
 
 };
-
