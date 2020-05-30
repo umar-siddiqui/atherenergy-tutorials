@@ -3,12 +3,12 @@ module.exports = async function (req, res, proceed) {
   if (!_.isNil(req.header('authorization'))) {
     const token = req.header('authorization').split('Bearer ')[1];
 
-    const apiKey = await ApiKey.findOne({ key: token });
+    const valid = await ApiKey.verify(token);
 
-    if(!_.isNil(apiKey)) {
+    if(valid) {
       return proceed();
     }
   }
 
-  return res.forbidden();
+  return res.sendStatus(401)
 };
