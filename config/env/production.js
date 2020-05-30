@@ -71,6 +71,8 @@ module.exports = {
       *                                                                           *
       ****************************************************************************/
       // ssl: true,
+      adapter: 'sails-postgresql',
+      url: process.env.POSTGRES_URL,
 
     },
 

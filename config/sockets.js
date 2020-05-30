@@ -50,6 +50,10 @@ module.exports.sockets = {
   //
   // },
 
+  beforeConnect: function(_handshake, proceed) {
+    return proceed('socket connections not allowed!', false);
+  },
+
 
   /***************************************************************************
   *                                                                          *
