@@ -6,15 +6,22 @@
  */
 
 module.exports = {
-  
+
 
   /**
    * `TutorialController.find()`
    */
   find: async function (req, res) {
-    return res.json({
-      todo: 'find() is not implemented yet!'
-    });
+    try {
+      const tutorials = await sails.helpers.getFilteredTutorials.with(req.query);
+      return res.json(tutorials);
+    } catch(err) {
+      if(err.name === 'UsageError') {
+        res.badRequest(err);
+      } else {
+        res.serverError(err);
+      }
+    }
   },
 
   /**
