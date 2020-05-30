@@ -18,6 +18,7 @@
  * For more best practices and tips, see:
  * https://sailsjs.com/docs/concepts/deployment
  */
+const winston = require('winston');
 
 module.exports = {
 
@@ -294,7 +295,18 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   log: {
-    level: 'debug'
+
+    level: 'debug',
+
+    custom: winston.createLogger({
+      level: 'info',
+      format: winston.format.simple(),
+      transports: [
+        new winston.transports.File({ filename: 'log/production.error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'log/production.combined.log' }),
+      ],
+    })
+
   },
 
 
