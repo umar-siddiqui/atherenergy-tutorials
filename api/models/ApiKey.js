@@ -34,7 +34,9 @@ module.exports = {
   secureCreate: async (key) => {
     const keyHash = ApiKey.generateHash(key);
 
-    return await ApiKey.create({ keyHash });
+    const apiKey = await ApiKey.create({ keyHash }).fetch();
+
+    return apiKey;
   },
 
   verify: async (key) => {
