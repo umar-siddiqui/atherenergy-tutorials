@@ -99,3 +99,20 @@ a [Sails v1](https://sailsjs.com) application
   ./node_modules/sails/bin/sails.js run seed-api-key # => token = FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ
   ```
 * App starts at port `:80` of host machine
+
+## Execute test case locally in TEST environment
+(Run local setup first)
+
+* Create a test database
+  ```bash
+  psql -U postgres postgres
+  ```
+  ```sql
+  CREATE DATABASE atherenergy_tutorials_test OWNER atheradmin;
+  \c atherenergy_tutorials_test;
+  CREATE EXTENSION citext;
+  ```
+* Run tests
+  ```bash
+  npm run test
+  ```
