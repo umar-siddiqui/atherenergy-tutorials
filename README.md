@@ -3,45 +3,99 @@
 a [Sails v1](https://sailsjs.com) application
 
 
-### Links
+### PR of changes done for the scope of the assignment
+> [https://github.com/umar-siddiqui/atherenergy-tutorials/pull/1](https://github.com/umar-siddiqui/atherenergy-tutorials/pull/1)
 
-+ [Sails framework documentation](https://sailsjs.com/get-started)
-+ [Version notes / upgrading](https://sailsjs.com/documentation/upgrading)
-+ [Deployment tips](https://sailsjs.com/documentation/concepts/deployment)
-+ [Community support options](https://sailsjs.com/support)
-+ [Professional / enterprise options](https://sailsjs.com/enterprise)
+### REST API DOCUMENTS
+**Sample examples of documentation use hosted demo app in PRODUCTION enviroment**
+* [Create tutorial](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Create-tutorial)
+* [Fetch Tutorials](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Fetch-Tutorials)
+* [Show Tutorial](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Show-Tutorial)
+* [Update Tutorial](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Update-Tutorial)
+* [Delete Tutorial](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Delete-Tutorial)
+* [Delete All Tutorials](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Delete-All-Tutorials)
+
+## Local setup
+
+### Prerequisite
+* Install nodejs 12+
+* Postgresql 12.3
+* GIT
+
+### Steps
+* Clone project repo
+  ```bash
+  git clone https://github.com/umar-siddiqui/atherenergy-tutorials.git
+  cd atherenergy-tutorials
+  ```
+* Install node package dependences
+  ```bash
+  npm install sails -g
+  npm install
+  ```
+* Create a database and role
+  ```bash
+  psql -U postgres postgres # Login as superuser
+  ```
+  ```sql
+  CREATE ROLE atheradmin WITH LOGIN PASSWORD 'atheradmin';
+  ALTER ROLE atheradmin CREATEDB;
+  CREATE DATABASE atherenergy_tutorials OWNER atheradmin;
+  \c atherenergy_tutorials;
+  CREATE EXTENSION citext;
+  ```
+* Run migrations and seed
+  ```bash
+  sails run create-app-tables --migrationType=up
+  sails run seed-api-key
+  ```
+* App starts at [http://localhost:1337](http://localhost:1337) <br />
+  [Refere API documentation for further usage details](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Home/_edit#rest-api-documents)
 
 
-### Version info
+## Production setup
 
-This app was originally generated on Sat May 30 2020 05:49:26 GMT+0530 (India Standard Time) using Sails v1.2.4.
+### Prerequisite
+* Docker version
+* docker-compose
+* GIT
 
-<!-- Internally, Sails used [`sails-generate@1.17.2`](https://github.com/balderdashy/sails-generate/tree/v1.17.2/lib/core-generators/new). -->
-
-
-
-<!--
-Note:  Generators are usually run using the globally-installed `sails` CLI (command-line interface).  This CLI version is _environment-specific_ rather than app-specific, thus over time, as a project's dependencies are upgraded or the project is worked on by different developers on different computers using different versions of Node.js, the Sails dependency in its package.json file may differ from the globally-installed Sails CLI release it was originally generated with.  (Be sure to always check out the relevant [upgrading guides](https://sailsjs.com/upgrading) before upgrading the version of Sails used by your app.  If you're stuck, [get help here](https://sailsjs.com/support).)
--->
-```bash
-docker exec -it atherenergy-tutorials_app_1 /bin/bash
-./node_modules/sails/bin/sails.js run create-app-tables --migrationType=up
-./node_modules/sails/bin/sails.js run seed-api-key
-```
-
-```bash
-# Login with superuser
-psql -U postgres postgres
-```
-
-```sql
-CREATE ROLE atheradmin WITH LOGIN PASSWORD 'atheradmin';
-
-ALTER ROLE atheradmin CREATEDB;
-
-CREATE DATABASE atherenergy_tutorials OWNER atheradmin;
-
-\c atherenergy_tutorials
-
-CREATE EXTENSION citext;
-```
+### Steps
+* Clone project repo
+  ```bash
+  git clone https://github.com/umar-siddiqui/atherenergy-tutorials.git
+  cd atherenergy-tutorials
+  ```
+* Create docker-compose.yml from docker-compose.example.yml
+  > Replace `{{ eg. postgres }}` with desired super user password to set inside postgres container <br />
+  > `- POSTGRES_PASSWORD=postgres` <br />
+  > Replace `{{ eg. postgresql://atheradmin:atheradmin@db:5432/atherenergy_tutorials }}` with desired postgres credentails <br />
+  > `- POSTGRES_URL=postgresql://atheradmin:atheradmin@db:5432/atherenergy_tutorials` <br />
+  > Replace `{{ eg. AET.29af79673bc5531a64a1e79cd4100b65 }}` with desired secret which will be used to create api key hash<br />
+  > `- API_KEY_SECRET=AET.29af79673bc5531a64a1e79cd4100b65 }}` <br />
+* Build docker images
+  ```bash
+  docker-compose build
+  ```
+* Start docker container for App and DB as defined in docker-compose.yml file
+  ```bash
+  docker-compose up -d
+  ```
+* Create a database and role
+  ```bash
+  docker exec -it atherenergy-tutorials_app_1 /bin/bash
+  psql -U postgres postgres
+  ```
+  ```sql
+  CREATE ROLE atheradmin WITH LOGIN PASSWORD 'atheradmin';
+  ALTER ROLE atheradmin CREATEDB;
+  CREATE DATABASE atherenergy_tutorials OWNER atheradmin;
+  \c atherenergy_tutorials;
+  CREATE EXTENSION citext;
+  ```
+* Run migrations and seed
+  ```bash
+  ./node_modules/sails/bin/sails.js run create-app-tables --migrationType=up
+  ./node_modules/sails/bin/sails.js run seed-api-key
+  ```
+* App starts at port `:80` of host machine
