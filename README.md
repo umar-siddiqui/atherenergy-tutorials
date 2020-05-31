@@ -129,10 +129,10 @@ a [Sails v1](https://sailsjs.com) application
 - Used blueprint APIs for the rest of the CRUD operations
 - Implemented API Key based authentication by add ApiKey model and policy for the same
 - Configured Postgres for development environment
-- Added seed data for the ApiKey model
+- Added seed data for the ApiKey and Tutorial model
 - Added migration script for application tables using Knex.js package
 - Configured the production environment
-- Dockerized the application and deploy on production instance using docker-compose
+- Dockerized the application and deployed on production instance using docker-compose
 - Refactored migration script to use helper which will also be used to test case execution
 - Setup test environment for running test cases using Mocha, Chai, and Supertest
 - Added positive test cases for all acceptance criteria as per assignment requirements
@@ -143,3 +143,4 @@ a [Sails v1](https://sailsjs.com) application
 - Enhanced contains search filter to be case insensitive on the title for fetch tutorials API
 - Added negative test case for tutorial controller actions
 - Added custom response for 401 unauthorized request
+- Implemented pagination feture on fetch tutorial api for batch requests
