@@ -1,12 +1,17 @@
 const supertest = require('supertest');
 const expect = require('chai').expect;
 
-const token = 'FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ';
+let apiKey = '';
 
 describe('TutorialController', () => {
 
+  before((done) => {
+    apiKey = sails.config.custom.apiKeyForTests;
+    done();
+  });
+
   describe('TutorialController.create', () => {
-    it('Should be able to create tutorial.', (done) => {
+    it('OK, Should be able to create tutorial.', (done) => {
 
       supertest(sails.hooks.http.app)
         .post('/api/v1/tutorial')
@@ -17,7 +22,7 @@ describe('TutorialController', () => {
           status: 'draft',
           content: 'Yo what\'s up everybody?'
         })
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then((res) => {
 
@@ -32,14 +37,47 @@ describe('TutorialController', () => {
 
     });
 
+    it('FAIL, Should fail(400) to create tutorial when title not passed.', (done) => {
+
+      supertest(sails.hooks.http.app)
+        .post('/api/v1/tutorial')
+        .send({
+          summary: 'nodejs tutorial',
+          author: 'Bob Smith',
+          status: 'draft',
+          content: 'Yo what\'s up everybody?'
+        })
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(400)
+        .then(() => done())
+        .catch(done);
+
+    });
+
+    it('FAIL, Should fail(400) to create tutorial when status is other then draft, published, retracted.', (done) => {
+
+      supertest(sails.hooks.http.app)
+        .post('/api/v1/tutorial')
+        .send({
+          title: 'nodejs 101',
+          author: 'Bob Smith',
+          status: 'created',
+        })
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(400)
+        .then(() => done())
+        .catch(done);
+
+    });
+
   });
 
   describe('TutorialController.find', () => {
-    it('Should be able to fetch all tutorials.', (done) => {
+    it('OK, Should be able to fetch all tutorials.', (done) => {
 
       supertest(sails.hooks.http.app)
         .get('/api/v1/tutorial')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then((res) => {
           expect(res.body).to.be.an('array');
@@ -59,12 +97,12 @@ describe('TutorialController', () => {
 
     });
 
-    it('Should be able to fetch all published tutorials.', (done) => {
+    it('OK, Should be able to fetch all published tutorials.', (done) => {
       const status = 'published';
 
       supertest(sails.hooks.http.app)
         .get(`/api/v1/tutorial?status=${status}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then((res) => {
           expect(res.body).to.be.an('array');
@@ -81,12 +119,12 @@ describe('TutorialController', () => {
 
     });
 
-    it('Should be able to fetch all tutorials that contain "nodejs" in their title.', (done) => {
+    it('OK, Should be able to fetch all tutorials that contain "nodejs" in their title.', (done) => {
       const titleContains = 'nodejs';
 
       supertest(sails.hooks.http.app)
         .get(`/api/v1/tutorial?title=${titleContains}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then((res) => {
           expect(res.body).to.be.an('array');
@@ -103,15 +141,39 @@ describe('TutorialController', () => {
 
     });
 
+    it('FAIL, Should fail(400) when trying to fetch tutorials of status is other then draft, published, retracted.', (done) => {
+      const status = 'created';
+
+      supertest(sails.hooks.http.app)
+        .get(`/api/v1/tutorial?status=${status}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(400)
+        .then(() => done())
+        .catch(done);
+
+    });
+
+    it('FAIL, Should fail(400) to fetch tutorial when limt params is alphanumeric', (done) => {
+      const limit = '1a';
+
+      supertest(sails.hooks.http.app)
+        .get(`/api/v1/tutorial?limit=${limit}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(400)
+        .then(() => done())
+        .catch(done);
+
+    });
+
   });
 
   describe('TutorialController.findOne', () => {
-    it('Should be able to fetch a tutorial by its id.', (done) => {
+    it('OK, Should be able to fetch a tutorial by its id.', (done) => {
       const tutorialId = 1;
 
       supertest(sails.hooks.http.app)
         .get(`/api/v1/tutorial/${tutorialId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then((res) => {
 
@@ -126,10 +188,34 @@ describe('TutorialController', () => {
 
     });
 
+    it('FAIL, Should fail(404) when tutorial with id not present.', (done) => {
+      const tutorialId = 9999;
+
+      supertest(sails.hooks.http.app)
+        .get(`/api/v1/tutorial/${tutorialId}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(404)
+        .then(() => done())
+        .catch(done);
+
+    });
+
+    it('FAIL, Should fail(400) when tutorial id is alphanumeric.', (done) => {
+      const tutorialId = '1a';
+
+      supertest(sails.hooks.http.app)
+        .get(`/api/v1/tutorial/${tutorialId}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(400)
+        .then(() => done())
+        .catch(done);
+
+    });
+
   });
 
   describe('TutorialController.update', () => {
-    it('Update the tutorial by the given id.', (done) => {
+    it('OK, Should updating the tutorial by the given id.', (done) => {
       const tutorialId = 1;
 
       const tutorialUpdates = {
@@ -139,7 +225,7 @@ describe('TutorialController', () => {
 
       supertest(sails.hooks.http.app)
         .patch(`/api/v1/tutorial/${tutorialId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .send(tutorialUpdates)
         .expect(200)
         .then((res) => {
@@ -159,15 +245,45 @@ describe('TutorialController', () => {
 
     });
 
+    it('FAIL, Should fail(404) updating the tutorial id which is not present.', (done) => {
+      const tutorialId = 999;
+
+      const tutorialUpdates = {};
+
+      supertest(sails.hooks.http.app)
+        .patch(`/api/v1/tutorial/${tutorialId}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .send(tutorialUpdates)
+        .expect(404)
+        .then(() => done())
+        .catch(done);
+
+    });
+
+    it('FAIL, Should fail(400) updating the tutorial id which is alphanumeric.', (done) => {
+      const tutorialId = '1a';
+
+      const tutorialUpdates = {};
+
+      supertest(sails.hooks.http.app)
+        .patch(`/api/v1/tutorial/${tutorialId}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .send(tutorialUpdates)
+        .expect(400)
+        .then(() => done())
+        .catch(done);
+
+    });
+
   });
 
   describe('TutorialController.destroy', () => {
-    it('Delete the tutorial by the given id.', (done) => {
+    it('OK, Delete the tutorial by the given id.', (done) => {
       const tutorialId = 1;
 
       supertest(sails.hooks.http.app)
         .delete(`/api/v1/tutorial/${tutorialId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then((res) => {
 
@@ -178,7 +294,7 @@ describe('TutorialController', () => {
 
           supertest(sails.hooks.http.app)
             .delete(`/api/v1/tutorial/${tutorialId}`)
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', `Bearer ${apiKey}`)
             .expect(404)
             .then(() => done())
             .catch(done);
@@ -188,20 +304,32 @@ describe('TutorialController', () => {
 
     });
 
+    it('FAIL, Should fail(404) to delete the tutorial with tutorial id not present.', (done) => {
+      const tutorialId = 1;
+
+      supertest(sails.hooks.http.app)
+        .delete(`/api/v1/tutorial/${tutorialId}`)
+        .set('Authorization', `Bearer ${apiKey}`)
+        .expect(404)
+        .then(() => done())
+        .catch(done);
+
+    });
+
   });
 
   describe('TutorialController.destroyAll', () => {
-    it('Delete all tutorials.', (done) => {
+    it('OK, Delete all tutorials.', (done) => {
 
       supertest(sails.hooks.http.app)
         .post('/api/v1/tutorial/destroy-all')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${apiKey}`)
         .expect(200)
         .then(() => {
 
           supertest(sails.hooks.http.app)
             .get(`/api/v1/tutorial`)
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', `Bearer ${apiKey}`)
             .then((res) => {
 
               expect(res.body).to.be.an('array');
@@ -213,6 +341,17 @@ describe('TutorialController', () => {
             }).catch(done);
 
         }).catch(done);
+
+    });
+
+
+    it('FAIL, Should fail(401) to Delete all tutorials when apiKeyapiKey not present.', (done) => {
+
+      supertest(sails.hooks.http.app)
+        .post('/api/v1/tutorial/destroy-all')
+        // .set('Authorization', `Bearer ${apiKey}`)
+        .expect(401)
+        .then(() => done()).catch(done);
 
     });
 
