@@ -21,10 +21,6 @@ services:
       - db
     ports:
       - 80:1337
-    deploy:
-      mode: replicated
-      replicas: 2
-      endpoint_mode: vip
 volumes:
   postgres_data:
   app_logs:
