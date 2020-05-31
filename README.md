@@ -50,7 +50,7 @@ a [Sails v1](https://sailsjs.com) application
   sails run seed-api-key
   ```
 * App starts at [http://localhost:1337](http://localhost:1337) <br />
-  [Refere API documentation for further usage details](https://github.com/umar-siddiqui/atherenergy-tutorials/wiki/Home/_edit#rest-api-documents)
+  [Refere API documentation for further usage details](https://github.com/umar-siddiqui/atherenergy-tutorials#rest-api-documents)
 
 
 ## Production setup
