@@ -40,13 +40,13 @@ module.exports = {
   verify: async (key) => {
     const keyHash = ApiKey.generateHash(key);
 
-    const apiKey = await ApiKey.findOne({ keyHash })
+    const apiKey = await ApiKey.findOne({ keyHash });
 
     if(!_.isNil(apiKey)) {
-      return true
+      return true;
     }
 
-    return false
+    return false;
   },
 
   generateHash: (key) => {
@@ -55,7 +55,7 @@ module.exports = {
                           .update(sails.config.custom.apiKeySecret)
                           .digest('hex');
 
-    return keyHash
+    return keyHash;
   }
 
 };

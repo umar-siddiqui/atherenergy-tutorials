@@ -10,5 +10,5 @@ module.exports = async function (req, res, proceed) {
     }
   }
 
-  return res.sendStatus(401)
+  return res.sendStatus(401);
 };

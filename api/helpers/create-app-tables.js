@@ -61,7 +61,7 @@ module.exports = {
       await pg.schema
               .createTable('apikey', table => {
                 table.increments('id');
-                table.text('key').unique();
+                table.text('keyHash').unique();
                 table.bigInteger('createdAt');
                 table.bigInteger('updatedAt');
               });

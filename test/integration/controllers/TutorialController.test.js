@@ -9,7 +9,7 @@ describe('TutorialController', () => {
     it('Should be able to create tutorial.', (done) => {
 
       supertest(sails.hooks.http.app)
-        .post('/tutorial')
+        .post('/api/v1/tutorial')
         .send({
           title: 'nodejs 103',
           summary: 'nodejs tutorial',
@@ -38,7 +38,7 @@ describe('TutorialController', () => {
     it('Should be able to fetch all tutorials.', (done) => {
 
       supertest(sails.hooks.http.app)
-        .get('/tutorial')
+        .get('/api/v1/tutorial')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then((res) => {
@@ -63,7 +63,7 @@ describe('TutorialController', () => {
       const status = 'published';
 
       supertest(sails.hooks.http.app)
-        .get(`/tutorial?status=${status}`)
+        .get(`/api/v1/tutorial?status=${status}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then((res) => {
@@ -85,7 +85,7 @@ describe('TutorialController', () => {
       const titleContains = 'nodejs';
 
       supertest(sails.hooks.http.app)
-        .get(`/tutorial?title=${titleContains}`)
+        .get(`/api/v1/tutorial?title=${titleContains}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then((res) => {
@@ -110,7 +110,7 @@ describe('TutorialController', () => {
       const tutorialId = 1;
 
       supertest(sails.hooks.http.app)
-        .get(`/tutorial/${tutorialId}`)
+        .get(`/api/v1/tutorial/${tutorialId}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then((res) => {
@@ -138,7 +138,7 @@ describe('TutorialController', () => {
       };
 
       supertest(sails.hooks.http.app)
-        .patch(`/tutorial/${tutorialId}`)
+        .patch(`/api/v1/tutorial/${tutorialId}`)
         .set('Authorization', `Bearer ${token}`)
         .send(tutorialUpdates)
         .expect(200)
@@ -166,7 +166,7 @@ describe('TutorialController', () => {
       const tutorialId = 1;
 
       supertest(sails.hooks.http.app)
-        .delete(`/tutorial/${tutorialId}`)
+        .delete(`/api/v1/tutorial/${tutorialId}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then((res) => {
@@ -177,7 +177,7 @@ describe('TutorialController', () => {
                   'content', 'createdAt', 'updatedAt');
 
           supertest(sails.hooks.http.app)
-            .delete(`/tutorial/${tutorialId}`)
+            .delete(`/api/v1/tutorial/${tutorialId}`)
             .set('Authorization', `Bearer ${token}`)
             .expect(404)
             .then(() => done())
@@ -194,13 +194,13 @@ describe('TutorialController', () => {
     it('Delete all tutorials.', (done) => {
 
       supertest(sails.hooks.http.app)
-        .post('/tutorial/destroy-all')
+        .post('/api/v1/tutorial/destroy-all')
         .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .then(() => {
 
           supertest(sails.hooks.http.app)
-            .get(`/tutorial`)
+            .get(`/api/v1/tutorial`)
             .set('Authorization', `Bearer ${token}`)
             .then((res) => {
 
