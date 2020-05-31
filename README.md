@@ -47,7 +47,7 @@ a [Sails v1](https://sailsjs.com) application
 * Run migrations and seed
   ```bash
   sails run create-app-tables --migrationType=up
-  sails run seed-api-key
+  sails run seed-api-key # => token = FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ
   ```
 * App starts at [http://localhost:1337](http://localhost:1337) <br />
   [Refere API documentation for further usage details](https://github.com/umar-siddiqui/atherenergy-tutorials#rest-api-documents)
@@ -96,6 +96,6 @@ a [Sails v1](https://sailsjs.com) application
 * Run migrations and seed
   ```bash
   ./node_modules/sails/bin/sails.js run create-app-tables --migrationType=up
-  ./node_modules/sails/bin/sails.js run seed-api-key
+  ./node_modules/sails/bin/sails.js run seed-api-key # => token = FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ
   ```
 * App starts at port `:80` of host machine
