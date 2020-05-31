@@ -143,4 +143,4 @@ a [Sails v1](https://sailsjs.com) application
 - Enhanced contains search filter to be case insensitive on the title for fetch tutorials API
 - Added negative test case for tutorial controller actions
 - Added custom response for 401 unauthorized request
-- Implemented pagination feture on fetch tutorial api for batch requests
+- Implemented pagination feture on fetch tutorial api for batch records
