@@ -116,3 +116,30 @@ a [Sails v1](https://sailsjs.com) application
   ```bash
   npm run test
   ```
+
+
+## Changelog
+
+- Setup initial Sails project development environment setup & dependencies (nodemon, lodash latest version, etc)
+- Created model for storing tutorials data
+- Created controller for tutorials to override fetch all tutorials blueprint action(find)
+- Implemented feature for the filter as per status and contains search on the title
+- Implemented limit and skip params to query limit and skip for fetch tutorials API
+- Implemented action for delete all tutorial as soft delete
+- Used blueprint APIs for the rest of the CRUD operations
+- Implemented API Key based authentication by add ApiKey model and policy for the same
+- Configured Postgres for development environment
+- Added seed data for the ApiKey model
+- Added migration script for application tables using Knex.js package
+- Configured the production environment
+- Dockerized the application and deploy on production instance using docker-compose
+- Refactored migration script to use helper which will also be used to test case execution
+- Setup test environment for running test cases using Mocha, Chai, and Supertest
+- Added positive test cases for all acceptance criteria as per assignment requirements
+- Added namespace for blueprint API
+- Enhanced API key authentication to store hashed key instead of actual
+- Enabled custom file logging for the production environment
+- Added request logger middleware and disabled session and cookies as the app is API only
+- Enhanced contains search filter to be case insensitive on the title for fetch tutorials API
+- Added negative test case for tutorial controller actions
+- Added custom response for 401 unauthorized request
