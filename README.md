@@ -144,3 +144,4 @@ a [Sails v1](https://sailsjs.com) application
 - Added negative test case for tutorial controller actions
 - Added custom response for 401 unauthorized request
 - Implemented pagination feture on fetch tutorial api for batch records
+- Added test cases for ApiKey model
