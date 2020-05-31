@@ -26,6 +26,16 @@ module.exports = {
       type: 'number'
     },
 
+    page: {
+      type: 'number',
+      min: 1,
+    },
+
+    pageLimit: {
+      type: 'number',
+      defaultsTo: 50,
+    },
+
   },
 
 
@@ -62,6 +72,11 @@ module.exports = {
       tutorialQuery = tutorialQuery.skip(inputs.skip);
     }
 
+    if(!_.isNil(inputs.page)) {
+      const skipRecords = inputs.page * inputs.pageLimit - inputs.pageLimit;
+      tutorialQuery = tutorialQuery.skip(skipRecords).limit(inputs.pageLimit);
+    }
+
     const tutorials = await tutorialQuery;
 
     return exits.success(tutorials);
@@ -70,4 +85,3 @@ module.exports = {
 
 
 };
-
