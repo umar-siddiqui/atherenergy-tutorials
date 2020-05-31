@@ -299,7 +299,7 @@ module.exports = {
     level: 'debug',
 
     custom: winston.createLogger({
-      level: 'info',
+      level: 'debug',
       format: winston.format.simple(),
       transports: [
         new winston.transports.File({ filename: 'log/production.error.log', level: 'error' }),
