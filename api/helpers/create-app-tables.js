@@ -32,7 +32,7 @@ module.exports = {
         .createTable('tutorial', table => {
           table.increments('id');
           table.text('author');
-          table.text('title');
+          table.specificType('title', 'CITEXT');
           table.text('status');
           table.text('content');
           table.text('summary');

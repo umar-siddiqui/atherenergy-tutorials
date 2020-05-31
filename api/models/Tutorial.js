@@ -15,7 +15,8 @@ module.exports = {
 
     title: {
       type: 'string',
-      required: true
+      required: true,
+      columnType: 'citext',
     },
 
     summary: {
