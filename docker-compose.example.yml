@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD={{ eg. postgres }}
+  app:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    environment:
+      - POSTGRES_URL={{ eg. postgresql://atheradmin:atheradmin@db:5432/atherenergy_tutorials }}
+      - API_KEY_SECRET= {{ eg. AET.29af79673bc5531a64a1e79cd4100b65 }}
+    volumes:
+      - app_logs:/var/www/app/log
+    depends_on:
+      - db
+    ports:
+      - 80:1337
+volumes:
+  postgres_data:
+  app_logs:

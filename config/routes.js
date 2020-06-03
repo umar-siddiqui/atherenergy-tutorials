@@ -21,6 +21,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  'POST /api/v1/tutorial/destroy-all': 'Tutorial.destroyAll',
 
   /***************************************************************************
   *                                                                          *

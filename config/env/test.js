@@ -18,7 +18,6 @@
  * For more best practices and tips, see:
  * https://sailsjs.com/docs/concepts/deployment
  */
-const winston = require('winston');
 
 module.exports = {
 
@@ -73,7 +72,7 @@ module.exports = {
       ****************************************************************************/
       // ssl: true,
       adapter: 'sails-postgresql',
-      url: process.env.POSTGRES_URL,
+      url: 'postgresql://atheradmin:atheradmin@localhost:5432/atherenergy_tutorials_test',
 
     },
 
@@ -295,18 +294,7 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   log: {
-
-    level: 'debug',
-
-    custom: winston.createLogger({
-      level: 'debug',
-      format: winston.format.simple(),
-      transports: [
-        new winston.transports.File({ filename: 'log/production.error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'log/production.combined.log' }),
-      ],
-    })
-
+    level: 'info'
   },
 
 
@@ -390,7 +378,7 @@ module.exports = {
   custom: {
     baseUrl: 'https://example.com',
     internalEmailAddress: 'support@example.com',
-    apiKeySecret: process.env.API_KEY_SECRET,
+    apiKeyForTests: 'FASDASDASDASD_somerandomkey_34fqfsffwfevvwEWEWQ',
 
     // sendgridSecret: 'SG.fake.3e0Bn0qSQVnwb1E4qNPz9JZP5vLZYqjh7sn8S93oSHU',
     // stripeSecret: 'sk_prod__fake_Nfgh82401348jaDa3lkZ0d9Hm',

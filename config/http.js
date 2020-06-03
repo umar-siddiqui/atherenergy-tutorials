@@ -29,17 +29,29 @@ module.exports.http = {
     *                                                                          *
     ***************************************************************************/
 
-    // order: [
-    //   'cookieParser',
-    //   'session',
-    //   'bodyParser',
-    //   'compress',
-    //   'poweredBy',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    // ],
+    order: [
+      // 'cookieParser',
+      // 'session',
+      'bodyParser',
+      'requestLogger',
+      'compress',
+      'poweredBy',
+      'router',
+      'www',
+      'favicon',
+    ],
 
+    requestLogger: function (req, res, next) {
+      res.on('finish', () => {
+        sails.log.debug(req.ip,
+                        req._startTime,
+                        req.method,
+                        req.url,
+                        res.statusCode);
+      });
+
+      return next();
+    },
 
     /***************************************************************************
     *                                                                          *
