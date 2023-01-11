@@ -10,7 +10,7 @@
     "@sailshq/socket.io-redis": "^5.2.0",
     "async": "^3.2.0",
     "grunt": "1.0.4",
-    "knex": "^0.21.1",
+    "knex": "^2.4.0",
     "lodash": "4.17.15",
     "pg": "^8.2.1",
     "sails": "^1.2.4",
